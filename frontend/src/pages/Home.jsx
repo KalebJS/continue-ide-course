@@ -5,7 +5,7 @@ import { BookOpen, ArrowRight, Download, CheckCircle2, Circle } from 'lucide-rea
 
 export default function Home() {
   const [lessons, setLessons] = useState([])
-  const { completedLessons, resetProgress } = useProgress()
+  const { completedLessons, resetProgress, getLessonProgress } = useProgress()
 
   useEffect(() => {
     fetch('/api/lessons')
@@ -56,6 +56,9 @@ export default function Home() {
       <div className="space-y-3">
         {lessons.map((lesson) => {
           const complete = completedLessons.includes(lesson.id)
+          const progress = lesson.totalTasks > 0
+            ? getLessonProgress(lesson.id, lesson.totalTasks)
+            : (complete ? 100 : 0)
           return (
             <Link
               key={lesson.id}
@@ -71,6 +74,17 @@ export default function Home() {
                 <div className="font-medium text-gray-900">
                   Module {lesson.number}: {lesson.title}
                 </div>
+                {!complete && lesson.totalTasks > 0 && progress > 0 && (
+                  <div className="mt-1.5 flex items-center gap-2">
+                    <div className="flex-1 bg-gray-200 rounded-full h-1.5">
+                      <div
+                        className="bg-indigo-400 h-1.5 rounded-full transition-all duration-300"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-gray-400">{progress}%</span>
+                  </div>
+                )}
               </div>
               <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-indigo-500 transition-colors shrink-0" />
             </Link>

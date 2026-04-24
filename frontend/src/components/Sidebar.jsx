@@ -14,7 +14,7 @@ import {
 export default function Sidebar() {
   const [lessons, setLessons] = useState([])
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { completedLessons } = useProgress()
+  const { completedLessons, getLessonProgress } = useProgress()
   const location = useLocation()
 
   useEffect(() => {
@@ -37,6 +37,8 @@ export default function Sidebar() {
     label: l.title,
     number: l.number,
     complete: completedLessons.includes(l.id),
+    progress: l.totalTasks > 0 ? getLessonProgress(l.id, l.totalTasks) : (completedLessons.includes(l.id) ? 100 : 0),
+    totalTasks: l.totalTasks,
   }))
 
   const totalComplete = completedLessons.length
@@ -49,7 +51,6 @@ export default function Sidebar() {
         ? 'bg-indigo-100 text-indigo-800 font-semibold'
         : 'text-gray-700 hover:bg-gray-100'
     }`
-
   const sidebarContent = (
     <>
       <div className="p-4 border-b border-gray-200">
@@ -74,7 +75,7 @@ export default function Sidebar() {
       </div>
 
       <nav className="flex-1 p-3 overflow-y-auto">
-        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-2">
           Modules
         </p>
         <ul className="space-y-1">
@@ -86,7 +87,17 @@ export default function Sidebar() {
                 ) : (
                   <Circle className="w-4 h-4 text-gray-300 shrink-0" />
                 )}
-                <span className="truncate">{item.number}. {item.label}</span>
+                <div className="flex-1 min-w-0">
+                  <span className="truncate block">{item.number}. {item.label}</span>
+                  {!item.complete && item.totalTasks > 0 && item.progress > 0 && (
+                    <div className="mt-1 w-full bg-gray-200 rounded-full h-1">
+                      <div
+                        className="bg-indigo-400 h-1 rounded-full transition-all duration-300"
+                        style={{ width: `${item.progress}%` }}
+                      />
+                    </div>
+                  )}
+                </div>
               </NavLink>
             </li>
           ))}

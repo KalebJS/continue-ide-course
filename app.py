@@ -27,19 +27,32 @@ LESSON_TITLES = {
 
 @app.route("/api/lessons")
 def list_lessons():
+    import re
     modules = []
+    task_re = re.compile(r"<!--\s*total-tasks:\s*(\d+)\s*-->")
     for filename in sorted(os.listdir(CONTENT_DIR)):
         if filename.endswith(".md"):
             number = filename.split("-")[0]
             title = LESSON_TITLES.get(
                 number, filename[len(number) + 1 : -3].replace("-", " ").title()
             )
+            total_tasks = 0
+            filepath = os.path.join(CONTENT_DIR, filename)
+            try:
+                with open(filepath, "r", encoding="utf-8") as f:
+                    content = f.read()
+                    match = task_re.search(content)
+                    if match:
+                        total_tasks = int(match.group(1))
+            except Exception:
+                pass
             modules.append(
                 {
                     "id": filename[:-3],
                     "number": int(number),
                     "title": title,
                     "file": filename,
+                    "totalTasks": total_tasks,
                 }
             )
     return jsonify(modules)

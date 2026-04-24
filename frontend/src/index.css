@@ -1,1 +1,66 @@
 @import "tailwindcss";
+
+/* Blockquote / Tip styling — makes "Coach marks" impossible to miss */
+.prose blockquote {
+  border-left: 4px solid #818cf8; /* indigo-400 */
+  background-color: #eef2ff; /* indigo-50 */
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin: 1.25rem 0;
+  font-style: normal;
+}
+
+.prose blockquote p {
+  margin: 0;
+}
+
+.prose blockquote strong {
+  color: #4338ca; /* indigo-700 */
+}
+
+/* Code blocks — better readability for beginners */
+.prose pre {
+  background-color: #1e293b; /* slate-800 */
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  border: 1px solid #334155; /* slate-700 */
+}
+
+.prose code {
+  font-size: 0.875em;
+}
+
+.prose :not(pre) > code {
+  background-color: #f1f5f9; /* slate-100 */
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  color: #4f46e5; /* indigo-600 */
+  font-weight: 500;
+}
+
+/* Tables — cleaner look */
+.prose table {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid #e2e8f0; /* slate-200 */
+}
+
+.prose th {
+  background-color: #f8fafc; /* slate-50 */
+  font-weight: 600;
+}
+
+.prose th,
+.prose td {
+  padding: 0.5rem 0.75rem;
+  border-color: #e2e8f0; /* slate-200 */
+}
+
+/* Horizontal rules — softer dividers */
+.prose hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #c7d2fe, transparent); /* indigo-200 gradient */
+  margin: 2rem 0;
+}
