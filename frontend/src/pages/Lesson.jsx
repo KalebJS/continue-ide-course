@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { useProgress } from '../contexts/ProgressContext'
-import { ArrowLeft, ArrowRight, CheckCircle2, Square, SquareCheckBig } from 'lucide-react'
+import { ArrowLeft, ArrowRight, CheckCircle2, Square, SquareCheckBig, ArrowUp } from 'lucide-react'
 
 const TASK_REGEX = /^-\s*\[ \]\s*(.+)$/gm
 const TOTAL_TASKS_REGEX = /<!--\s*total-tasks:\s*(\d+)\s*-->/
@@ -13,6 +13,7 @@ export default function Lesson() {
   const [lesson, setLesson] = useState(null)
   const [lessons, setLessons] = useState([])
   const [taskMap, setTaskMap] = useState({})
+  const [showBackToTop, setShowBackToTop] = useState(false)
   const { markLessonComplete, unmarkLessonComplete, completedLessons, isTaskChecked, toggleTask, getLessonProgress } = useProgress()
   const contentRef = useRef(null)
 
@@ -35,6 +36,13 @@ export default function Lesson() {
     contentRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [lessonId])
+
+  // Show back-to-top button when scrolled down
+  useEffect(() => {
+    const handleScroll = () => setShowBackToTop(window.scrollY > 400)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const currentIndex = lessons.findIndex((l) => l.id === lessonId)
   const prevLesson = currentIndex > 0 ? lessons[currentIndex - 1] : null
@@ -177,6 +185,17 @@ export default function Lesson() {
           </Link>
         )}
       </div>
+
+      {/* Back to top floating button */}
+      {showBackToTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-6 right-6 z-20 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition-all hover:scale-105"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </button>
+      )}
     </div>
   )
 }

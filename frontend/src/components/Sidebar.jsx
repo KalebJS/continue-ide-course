@@ -64,11 +64,11 @@ export default function Sidebar() {
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
           <span>Progress</span>
-          <span>{totalComplete}/{totalLessons} lessons</span>
+          <span>{totalComplete}/{totalLessons} lessons ({overallProgress}%)</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-gray-200 rounded-full h-3">
           <div
-            className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
+            className="bg-indigo-600 h-3 rounded-full transition-all duration-300"
             style={{ width: `${overallProgress}%` }}
           />
         </div>
@@ -126,8 +126,11 @@ export default function Sidebar() {
   return (
     <>
       <button
-        className="lg:hidden fixed top-3 left-3 z-50 bg-white shadow-md rounded-lg p-2 border border-gray-200"
+        className="lg:hidden fixed top-3 left-3 z-50 bg-white shadow-md rounded-lg p-2 border border-gray-200 touch-manipulation"
+        style={{ marginTop: 'env(safe-area-inset-top)', marginLeft: 'env(safe-area-inset-left)' }}
         onClick={() => setMobileOpen(!mobileOpen)}
+        aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        aria-expanded={mobileOpen}
       >
         {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
