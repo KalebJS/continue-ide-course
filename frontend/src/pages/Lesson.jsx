@@ -96,16 +96,18 @@ export default function Lesson() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-12" ref={contentRef}>
       {totalTaskCount > 0 && (
-        <div className="sticky top-6 z-10 mb-8 p-4 bg-indigo-50/90 backdrop-blur border border-indigo-100 rounded-xl shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-indigo-800">Task Progress</span>
-            <span className="text-sm text-indigo-600">{lessonProgress}%</span>
-          </div>
-          <div className="w-full bg-indigo-100 rounded-full h-2.5">
-            <div
-              className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500"
-              style={{ width: `${lessonProgress}%` }}
-            />
+        <div className="sticky top-0 z-30 -mx-6 -mt-12 mb-8 px-6 py-4 bg-gray-50/80 backdrop-blur-md border-b border-indigo-100 shadow-sm">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-indigo-800">Task Progress</span>
+              <span className="text-sm text-indigo-600">{lessonProgress}%</span>
+            </div>
+            <div className="w-full bg-indigo-100 rounded-full h-2.5">
+              <div
+                className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500"
+                style={{ width: `${lessonProgress}%` }}
+              />
+            </div>
           </div>
         </div>
       )}
