@@ -50,7 +50,7 @@ Congratulations on completing the VS Code & Continue training course! Let's reca
 | Command Palette | Ctrl+Shift+P | Cmd+Shift+P |
 | Quick Open (find file) | Ctrl+P | Cmd+P |
 | Toggle Sidebar | Ctrl+B | Cmd+B |
-| Toggle Terminal | Ctrl+\` | Cmd+\` |
+| Toggle Terminal | Ctrl+` | Cmd+` |
 | Split Editor | Ctrl+\ | Cmd+\ |
 | Go to Line | Ctrl+G | Cmd+G |
 | Switch between open tabs | Ctrl+Tab | Cmd+Tab |

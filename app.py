@@ -1,7 +1,8 @@
+import io
 import os
 import zipfile
-import io
-from flask import Flask, jsonify, send_from_directory, send_file
+
+from flask import Flask, jsonify, send_file, send_from_directory
 
 app = Flask(__name__)
 
@@ -28,6 +29,7 @@ LESSON_TITLES = {
 @app.route("/api/lessons")
 def list_lessons():
     import re
+
     modules = []
     task_re = re.compile(r"<!--\s*total-tasks:\s*(\d+)\s*-->")
     for filename in sorted(os.listdir(CONTENT_DIR)):
@@ -107,4 +109,4 @@ def serve_spa(path):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5002)

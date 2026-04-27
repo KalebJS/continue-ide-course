@@ -1,12 +1,20 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { useProgress } from '../contexts/ProgressContext'
 import { ArrowLeft, ArrowRight, CheckCircle2, Square, SquareCheckBig, ArrowUp } from 'lucide-react'
 
-const TASK_REGEX = /^-\s*\[ \]\s*(.+)$/gm
+const TASK_REGEX = /^-\s*\[\s*\]\s*(.+)$/gm
 const TOTAL_TASKS_REGEX = /<!--\s*total-tasks:\s*(\d+)\s*-->/
+
+function getText(node) {
+  if (typeof node === 'string') return node
+  if (typeof node === 'number') return String(node)
+  if (Array.isArray(node)) return node.map(getText).join('')
+  if (node?.props?.children) return getText(node.props.children)
+  return ''
+}
 
 export default function Lesson() {
   const { lessonId } = useParams()
@@ -31,17 +39,21 @@ export default function Lesson() {
       .catch(() => {})
   }, [lessonId])
 
-  // Scroll to top on lesson change
+  // Scroll main container to top on lesson change
   useEffect(() => {
-    contentRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    const el = document.getElementById('main-scroll')
+    if (el) {
+      el.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }, [lessonId])
 
   // Show back-to-top button when scrolled down
   useEffect(() => {
-    const handleScroll = () => setShowBackToTop(window.scrollY > 400)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    const el = document.getElementById('main-scroll')
+    const handleScroll = () => setShowBackToTop((el?.scrollTop || 0) > 400)
+    el?.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => el?.removeEventListener('scroll', handleScroll)
   }, [])
 
   const currentIndex = lessons.findIndex((l) => l.id === lessonId)
@@ -54,19 +66,21 @@ export default function Lesson() {
 
   const lessonProgress = getLessonProgress(lessonId, totalTaskCount)
 
-  const processContent = useCallback((content) => {
-    if (!content) return ''
-    let processed = content.replace(/<!--[\s\S]*?-->/g, '')
+  // Build taskMap once per lesson content
+  useEffect(() => {
+    if (!lesson?.content) return
     const map = {}
     let idx = 0
-    processed = processed.replace(TASK_REGEX, (_match, taskText) => {
-      const taskIdx = idx++
-      map[taskIdx] = taskText
-      return `- [${isTaskChecked(lessonId, taskIdx) ? 'x' : ' '}] ${taskText}`
+    const raw = lesson.content.replace(/<!--[\s\S]*?-->/g, '')
+    raw.replace(TASK_REGEX, (_match, taskText) => {
+      // Strip backticks so keys match getText() output, which walks the
+      // React tree where backtick text becomes <code> elements (backticks lost)
+      const key = taskText.trim().replace(/`/g, '')
+      map[key] = idx++
+      return ''
     })
     setTaskMap(map)
-    return processed
-  }, [lessonId, isTaskChecked])
+  }, [lesson])
 
   if (!lesson) {
     return (
@@ -76,12 +90,13 @@ export default function Lesson() {
     )
   }
 
-  const processedContent = processContent(lesson.content)
+  // Strip comments so they don't render; keep task line text for our custom renderer
+  const rawContent = lesson.content.replace(/<!--[\s\S]*?-->/g, '')
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12" ref={contentRef}>
       {totalTaskCount > 0 && (
-        <div className="mb-8 p-4 bg-indigo-50 border border-indigo-100 rounded-xl">
+        <div className="sticky top-6 z-10 mb-8 p-4 bg-indigo-50/90 backdrop-blur border border-indigo-100 rounded-xl shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-indigo-800">Task Progress</span>
             <span className="text-sm text-indigo-600">{lessonProgress}%</span>
@@ -99,36 +114,30 @@ export default function Lesson() {
           remarkPlugins={[remarkGfm]}
           components={{
             li: ({ children, ...props }) => {
-              const text = String(children)
-              const checkedMatch = text.match(/^\s*\[(x| )\]\s*/)
-              if (!checkedMatch) return <li {...props}>{children}</li>
-              const isChecked = checkedMatch[1] === 'x'
-              const taskText = text.replace(checkedMatch[0], '')
-              // Find the task index from taskMap
-              const taskIdx = Object.entries(taskMap).find(([, v]) => v === taskText)?.[0]
-              const handleToggle = taskIdx !== undefined
-                ? () => toggleTask(lessonId, parseInt(taskIdx))
-                : undefined
+              const text = getText(children).trim()
+              const taskIdx = taskMap[text]
+              if (taskIdx === undefined) return <li {...props}>{children}</li>
+              const checked = isTaskChecked(lessonId, taskIdx)
               return (
                 <li {...props} className="flex items-start gap-2.5 list-none -ml-5">
                   <button
-                    onClick={handleToggle}
+                    onClick={() => toggleTask(lessonId, taskIdx)}
                     className="mt-0.5 shrink-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded"
-                    aria-label={isChecked ? 'Mark task incomplete' : 'Mark task complete'}
+                    aria-label={checked ? 'Mark task incomplete' : 'Mark task complete'}
                   >
-                    {isChecked
+                    {checked
                       ? <SquareCheckBig className="w-5 h-5 text-indigo-600" />
                       : <Square className="w-5 h-5 text-gray-400 hover:text-indigo-400 transition-colors" />
                     }
                   </button>
-                  <span className={isChecked ? 'line-through text-gray-400' : 'text-gray-700'}>
-                    {taskText}
+                  <span className={checked ? 'line-through text-gray-400' : 'text-gray-700'}>
+                    {text}
                   </span>
                 </li>
               )
             },
           }}
-        >{processedContent}</ReactMarkdown>
+        >{rawContent}</ReactMarkdown>
       </div>
 
       <div className="mt-10 pt-6 border-t border-gray-200 flex items-center justify-between">
@@ -189,7 +198,10 @@ export default function Lesson() {
       {/* Back to top floating button */}
       {showBackToTop && (
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => {
+            const el = document.getElementById('main-scroll')
+            el?.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
           className="fixed bottom-6 right-6 z-20 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition-all hover:scale-105"
           aria-label="Back to top"
         >

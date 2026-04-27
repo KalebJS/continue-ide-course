@@ -39,7 +39,7 @@ This is where you actually read and edit files. When you open a file, it appears
 
 ### 4. Panel (Bottom)
 
-The Panel area appears at the bottom and contains the **Terminal**, **Problems**, **Output**, and **Debug Console** views. For this course, you mostly won't need this area. You can toggle it with `Ctrl+\`` (View > Terminal).
+The Panel area appears at the bottom and contains the **Terminal**, **Problems**, **Output**, and **Debug Console** views. For this course, you mostly won't need this area. You can toggle it with ``Ctrl+` `` (View > Terminal).
 
 ---
 
@@ -99,7 +99,7 @@ As a project manager, you'll often want to look at two documents at the same tim
 
 ### How to open split view:
 1. Open a file (like `meeting_notes/kickoff.md`)
-2. Press `Ctrl+\` (or `Cmd+\` on Mac) to split the editor
+2. Press ``Ctrl+\`` (or ``Cmd+\`` on Mac) to split the editor
 3. Open another file in the new pane
 
 You can also drag a file's tab to the right side of the editor to create a split.
@@ -131,6 +131,6 @@ A few settings that project managers especially appreciate:
 | Quick Open | Ctrl+P | Cmd+P |
 | Toggle Sidebar | Ctrl+B | Cmd+B |
 | Split Editor | Ctrl+\ | Cmd+\ |
-| Toggle Terminal | Ctrl+\` | Cmd+\` |
+| Toggle Terminal | Ctrl+` | Cmd+` |
 | Zoom In | Ctrl+Plus | Cmd+Plus |
 | Zoom Out | Ctrl+Minus | Cmd+Minus |

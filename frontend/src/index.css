@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* Blockquote / Tip styling — makes "Coach marks" impossible to miss */
 .prose blockquote {
