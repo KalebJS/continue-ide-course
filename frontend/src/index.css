@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* Prevent browser scroll anchoring from overriding our scroll-to-top on navigation */
+#main-scroll {
+  overflow-anchor: none;
+}
+
 /* Blockquote / Tip styling — makes "Coach marks" impossible to miss */
 .prose blockquote {
   border-left: 4px solid #818cf8; /* indigo-400 */
