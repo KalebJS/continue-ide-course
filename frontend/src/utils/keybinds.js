@@ -212,3 +212,24 @@ export function preprocessContent(content, platform) {
 
   return result
 }
+
+// ── Hint blockquote stripper ──────────────────────────────────────────────
+// Removes hint blockquotes (lines starting with "> 💡 **Hint: ...") from
+// content entirely, including continuation lines.
+export function stripHintBlockquotes(content) {
+  return content
+    .split('\n')
+    .filter((line) => !line.startsWith('> 💡 **Hint:'))
+    .filter((line, idx, arr) => {
+      if (line.startsWith('> ') && !line.startsWith('> 💡')) {
+        for (let i = idx - 1; i >= 0; i--) {
+          const prev = arr[i]
+          if (prev.startsWith('> 💡 **Hint:')) return false
+          if (prev.startsWith('> ')) continue
+          break
+        }
+      }
+      return true
+    })
+    .join('\n')
+}

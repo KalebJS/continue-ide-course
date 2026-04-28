@@ -70,3 +70,67 @@
   background: linear-gradient(to right, transparent, #c7d2fe, transparent); /* indigo-200 gradient */
   margin: 2rem 0;
 }
+
+/* Expandable hint sections */
+.hint-section {
+  border: 1px solid #c7d2fe; /* indigo-200 */
+  border-radius: 0.75rem;
+  background-color: #eef2ff; /* indigo-50 */
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+
+.hint-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: #4338ca; /* indigo-700 */
+  user-select: none;
+  list-style: none;
+}
+
+.hint-summary::-webkit-details-marker {
+  display: none;
+}
+
+.hint-summary::before {
+  content: '▸';
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.hint-section[open] .hint-summary::before {
+  transform: rotate(90deg);
+}
+
+.hint-content {
+  padding: 0 1rem 0.75rem 1rem;
+  border-top: 1px solid #c7d2fe; /* indigo-200 */
+  margin-top: 0;
+  padding-top: 0.75rem;
+}
+
+.hint-content p:first-child {
+  margin-top: 0;
+}
+
+.hint-content p:last-child {
+  margin-bottom: 0;
+}
+
+.hint-content ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hint-content code {
+  background-color: #e0e7ff; /* indigo-100 */
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+  font-size: 0.85em;
+  color: #3730a3; /* indigo-800 */
+}
