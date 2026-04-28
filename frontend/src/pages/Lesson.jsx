@@ -33,18 +33,22 @@ export default function Lesson() {
   }, [])
 
   useEffect(() => {
+    // Reset to loading state and scroll to top immediately on lesson change
+    setLesson(null)
+    const el = document.getElementById('main-scroll')
+    if (el) el.scrollTop = 0
+
     fetch(`/api/lessons/${lessonId}`)
       .then((r) => r.json())
-      .then(setLesson)
+      .then((data) => {
+        setLesson(data)
+        // Scroll to top again after new content renders
+        requestAnimationFrame(() => {
+          const el2 = document.getElementById('main-scroll')
+          if (el2) el2.scrollTop = 0
+        })
+      })
       .catch(() => {})
-  }, [lessonId])
-
-  // Scroll main container to top on lesson change
-  useEffect(() => {
-    const el = document.getElementById('main-scroll')
-    if (el) {
-      el.scrollTo({ top: 0, behavior: 'smooth' })
-    }
   }, [lessonId])
 
   // Show back-to-top button when scrolled down
