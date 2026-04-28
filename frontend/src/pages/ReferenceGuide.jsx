@@ -31,6 +31,7 @@ export default function ReferenceGuide() {
     return content
       .replace(/-\s*\[[ x]\]\s*/gm, '- ')
       .replace(/<!--\s*total-tasks:\s*\d+\s*-->/g, '')
+      .replace(/(^> 💡 \*\*Hint:.*\n?)(^> .*\n?)*/gm, '')
   }
 
   return (

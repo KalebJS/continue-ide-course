@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Fragment } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { useProgress } from '../contexts/ProgressContext'
-import { ArrowLeft, ArrowRight, CheckCircle2, Square, SquareCheckBig, ArrowUp } from 'lucide-react'
+import { ArrowLeft, ArrowRight, CheckCircle2, Square, SquareCheckBig, ArrowUp, Lightbulb } from 'lucide-react'
 
 const TASK_REGEX = /^-\s*\[\s*\]\s*(.+)$/gm
 const TOTAL_TASKS_REGEX = /<!--\s*total-tasks:\s*(\d+)\s*-->/
@@ -14,6 +14,34 @@ function getText(node) {
   if (Array.isArray(node)) return node.map(getText).join('')
   if (node?.props?.children) return getText(node.props.children)
   return ''
+}
+
+// Strips the leading "💡 **Hint: Title**\n\n" or "💡 **Hint: Title** " from content
+function stripHintPrefix(content) {
+  return content.replace(/^💡\s*\*\*Hint:.*?\*\*\s*\n\n?/, '').replace(/^💡\s*\*\*Hint:.*?\*\*\s*/, '')
+}
+
+// Strips hint blockquotes (lines starting with "> 💡 **Hint: ...") from content entirely
+function stripHintBlockquotes(content) {
+  // Remove multi-line hint blockquotes: lines starting with "> " that are part of a hint
+  return content
+    .split('\n')
+    .filter((line) => !line.startsWith('> 💡 **Hint:'))
+    .filter((line, idx, arr) => {
+      // Also remove continuation lines of hint blockquotes
+      // A continuation line is "> something" that follows a hint line or another continuation
+      if (line.startsWith('> ') && !line.startsWith('> 💡')) {
+        // Check if there's a hint line above (possibly with other continuations in between)
+        for (let i = idx - 1; i >= 0; i--) {
+          const prev = arr[i]
+          if (prev.startsWith('> 💡 **Hint:')) return false
+          if (prev.startsWith('> ')) continue
+          break
+        }
+      }
+      return true
+    })
+    .join('\n')
 }
 
 export default function Lesson() {
@@ -120,6 +148,51 @@ export default function Lesson() {
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
+            blockquote: ({ children, ...props }) => {
+              const text = getText(children).trim()
+              if (text.startsWith('💡 **Hint:')) {
+                const match = text.match(/💡\s*\*\*Hint:\s*(.*?)\*\*/)
+                const title = match ? match[1] : 'Hint'
+                // Strip the hint prefix line from the rendered content
+                const strippedContent = stripHintPrefix(text)
+                return (
+                  <details className="hint-section">
+                    <summary className="hint-summary">
+                      <Lightbulb className="w-4 h-4 shrink-0" />
+                      <span>{title}</span>
+                    </summary>
+                    <div className="hint-content">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
+                        li: ({ children: liChildren, ...liProps }) => {
+                          const liText = getText(liChildren).trim()
+                          const taskIdx = taskMap[liText]
+                          if (taskIdx === undefined) return <li {...liProps}>{liChildren}</li>
+                          const checked = isTaskChecked(lessonId, taskIdx)
+                          return (
+                            <li {...liProps} className="flex items-start gap-2.5 list-none -ml-5">
+                              <button
+                                onClick={() => toggleTask(lessonId, taskIdx)}
+                                className="mt-0.5 shrink-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded"
+                                aria-label={checked ? 'Mark task incomplete' : 'Mark task complete'}
+                              >
+                                {checked
+                                  ? <SquareCheckBig className="w-5 h-5 text-indigo-600" />
+                                  : <Square className="w-5 h-5 text-gray-400 hover:text-indigo-400 transition-colors" />
+                                }
+                              </button>
+                              <span className={checked ? 'line-through text-gray-400' : 'text-gray-700'}>
+                                {liText}
+                              </span>
+                            </li>
+                          )
+                        },
+                      }}>{strippedContent}</ReactMarkdown>
+                    </div>
+                  </details>
+                )
+              }
+              return <blockquote {...props}>{children}</blockquote>
+            },
             li: ({ children, ...props }) => {
               const text = getText(children).trim()
               const taskIdx = taskMap[text]

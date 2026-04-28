@@ -21,6 +21,9 @@ Open `requirements.md` and read through it. This is the current, official requir
 
 - [ ] Open both `requirements.md` and `meeting_notes/design-review.md` side by side using split view
 
+> 💡 **Hint: Splitting Your Editor**
+> Press `Ctrl+\` (Windows/Linux) or `Cmd+\` (macOS) to split the editor. You can also drag a file's tab to the other side. Use `Ctrl+Tab` (Windows/Linux) or `Cmd+Tab` (macOS) to switch between sides.
+
 ---
 
 ## Step 1: Identify What Needs to Change
@@ -47,6 +50,9 @@ Now let's use Continue to help identify what needs to change. Open the Continue 
 Review the AI's list against your own. Did it catch everything? Did it add anything you missed?
 
 - [ ] Use Continue to compare the two documents and list the changes needed
+
+> 💡 **Hint: Referencing Files in Continue**
+> Type `@` in the Continue chat input to see a list of files in your workspace. Select a file to reference it. You can add multiple `@` references in one prompt. If you already have a file open as your active tab, Continue can see it automatically — no `@` needed.
 
 ---
 
