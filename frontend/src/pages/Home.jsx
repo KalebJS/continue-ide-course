@@ -24,7 +24,7 @@ export default function Home() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12">
+    <div className="max-w-4xl mx-auto px-6 py-12">
       <div className="text-center mb-12 bg-gradient-to-b from-indigo-50 to-white -mx-6 -mt-12 px-6 pt-12 pb-10 rounded-b-3xl">
         <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-2xl mb-4">
           <BookOpen className="w-8 h-8 text-indigo-600" />
