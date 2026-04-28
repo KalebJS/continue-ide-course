@@ -94,10 +94,10 @@ export default function Lesson() {
   const rawContent = lesson.content.replace(/<!--[\s\S]*?-->/g, '')
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12" ref={contentRef}>
+    <>
       {totalTaskCount > 0 && (
-        <div className="sticky top-0 z-30 -mx-6 -mt-12 mb-8 px-6 py-4 bg-gray-50/80 backdrop-blur-md border-b border-indigo-100 shadow-sm">
-          <div className="max-w-3xl mx-auto">
+        <div className="fixed top-0 left-0 lg:left-72 right-0 z-30 bg-gray-50/80 backdrop-blur-md border-b border-indigo-100 shadow-sm">
+          <div className="max-w-3xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-indigo-800">Task Progress</span>
               <span className="text-sm text-indigo-600">{lessonProgress}%</span>
@@ -111,6 +111,7 @@ export default function Lesson() {
           </div>
         </div>
       )}
+      <div className={`max-w-3xl mx-auto px-6 py-12${totalTaskCount > 0 ? ' pt-28' : ''}`} ref={contentRef}>
       <div className="prose prose-lg prose-gray max-w-none">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
@@ -142,59 +143,60 @@ export default function Lesson() {
         >{rawContent}</ReactMarkdown>
       </div>
 
-      <div className="mt-10 pt-6 border-t border-gray-200 flex items-center justify-between">
-        {prevLesson ? (
-          <Link
-            to={`/lesson/${prevLesson.id}`}
-            className="flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            {prevLesson.number}. {prevLesson.title}
-          </Link>
-        ) : (
-          <Link
-            to="/"
-            className="flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Home
-          </Link>
-        )}
+        <div className="mt-10 pt-6 border-t border-gray-200 flex items-center justify-between">
+          {prevLesson ? (
+            <Link
+              to={`/lesson/${prevLesson.id}`}
+              className="flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {prevLesson.number}. {prevLesson.title}
+            </Link>
+          ) : (
+            <Link
+              to="/"
+              className="flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Home
+            </Link>
+          )}
 
-        {isComplete ? (
-          <button
-            onClick={() => unmarkLessonComplete(lessonId)}
-            className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-800 rounded-lg text-sm font-medium hover:bg-green-200 transition-colors"
-          >
-            <CheckCircle2 className="w-4 h-4" />
-            Completed!
-          </button>
-        ) : (
-          <button
-            onClick={() => markLessonComplete(lessonId)}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
-          >
-            Mark Complete
-          </button>
-        )}
+          {isComplete ? (
+            <button
+              onClick={() => unmarkLessonComplete(lessonId)}
+              className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-800 rounded-lg text-sm font-medium hover:bg-green-200 transition-colors"
+            >
+              <CheckCircle2 className="w-4 h-4" />
+              Completed!
+            </button>
+          ) : (
+            <button
+              onClick={() => markLessonComplete(lessonId)}
+              className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+            >
+              Mark Complete
+            </button>
+          )}
 
-        {nextLesson ? (
-          <Link
-            to={`/lesson/${nextLesson.id}`}
-            className="flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 transition-colors"
-          >
-            {nextLesson.number}. {nextLesson.title}
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        ) : (
-          <Link
-            to="/reference"
-            className="flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 transition-colors"
-          >
-            Reference Guides
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        )}
+          {nextLesson ? (
+            <Link
+              to={`/lesson/${nextLesson.id}`}
+              className="flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 transition-colors"
+            >
+              {nextLesson.number}. {nextLesson.title}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          ) : (
+            <Link
+              to="/reference"
+              className="flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-800 transition-colors"
+            >
+              Reference Guides
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          )}
+        </div>
       </div>
 
       {/* Back to top floating button */}
@@ -210,6 +212,6 @@ export default function Lesson() {
           <ArrowUp className="w-5 h-5" />
         </button>
       )}
-    </div>
+    </>
   )
 }
