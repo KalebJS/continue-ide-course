@@ -86,7 +86,7 @@ The AI gave you a draft — now it's time for your most important job: **review 
 4. Paste it into the document, making any adjustments needed
 5. Save the file
 
-You can also use Continue's **Edit** mode to propose changes directly in the file if you're comfortable with that workflow.
+You can also use Continue's **Plan** mode to plan out your changes before implementing them if you're comfortable with that workflow.
 
 - [ ] Copy the AI's drafted updates, verify them against the meeting notes, and apply them to requirements.md
 

@@ -49,9 +49,9 @@ These are the essential text editing shortcuts you'll use most:
 | Redo | Ctrl+Y | Cmd+Shift+Z |
 | Select All | Ctrl+A | Cmd+A |
 | Find | Ctrl+F | Cmd+F |
-| Find and Replace | Ctrl+H | Cmd+H |
+| Find and Replace | Ctrl+H | Option+Cmd+F |
 
-> **Note:** These shortcuts work the same way in VS Code as in Google Docs, Microsoft Word, and most other applications.
+> **Note:** The Windows/Linux shortcuts work the same way in Google Docs, Microsoft Word, and most other applications. On macOS, Cmd+H hides the current window instead, so VS Code uses Option+Cmd+F.
 
 - [ ] Open the `README.md` file and try using Ctrl+F / Cmd+F to search for the word "Phoenix"
 
@@ -68,11 +68,11 @@ Press `Ctrl+F` (or `Cmd+F`). A small search box appears at the top of the editor
 - Click the **.\*** button for regex search (advanced)
 
 ### Find and Replace in current file
-Press `Ctrl+H` (or `Cmd+H`). This works the same as Find, but also has a **Replace** field:
+Press `Ctrl+H` (Windows/Linux) or `Option+Cmd+F` (macOS). This works the same as Find, but also has a **Replace** field:
 - Type the replacement text
 - Click **Replace** (single) or **Replace All** (every match)
 
-- [ ] Use Find and Replace (Ctrl+H / Cmd+H) to search for "Project Phoenix" in README.md
+- [ ] Use Find and Replace (Ctrl+H / Option+Cmd+F) to search for "Project Phoenix" in README.md
 
 ### Search across all files
 Press `Ctrl+Shift+F` (or `Cmd+Shift+F`) to open the project-wide search in the side panel. This searches every file in your workspace at once — incredibly useful for finding which document mentions a specific person, term, or requirement.
@@ -141,7 +141,7 @@ This is handy for editing several rows in a table or list at the same time.
 | New File | Ctrl+N | Cmd+N |
 | Save | Ctrl+S | Cmd+S |
 | Find | Ctrl+F | Cmd+F |
-| Find and Replace | Ctrl+H | Cmd+H |
+| Find and Replace | Ctrl+H | Option+Cmd+F |
 | Search All Files | Ctrl+Shift+F | Cmd+Shift+F |
 | Move Line Up/Down | Alt+Up/Down | Option+Up/Down |
 | Multiple Cursors | Alt+Click | Option+Click |

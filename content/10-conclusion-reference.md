@@ -25,7 +25,7 @@ Congratulations on completing the VS Code & Continue training course! Let's reca
 - Previewing Markdown in VS Code
 
 ### Continue Skills
-- Opening the chat panel and understanding Chat, Edit, and Agent modes
+- Opening the chat panel and understanding Chat, Plan, and Agent modes
 - Writing effective prompts using the context-task-format framework
 - Referencing files with @ mentions
 - Using highlighted text for focused context
@@ -65,7 +65,7 @@ Congratulations on completing the VS Code & Continue training course! Let's reca
 | Undo | Ctrl+Z | Cmd+Z |
 | Redo | Ctrl+Y | Cmd+Shift+Z |
 | Find | Ctrl+F | Cmd+F |
-| Find and Replace | Ctrl+H | Cmd+H |
+| Find and Replace | Ctrl+H | Option+Cmd+F |
 | Search All Files | Ctrl+Shift+F | Cmd+Shift+F |
 | Select All | Ctrl+A | Cmd+A |
 | Move Line Up | Alt+Up | Option+Up |

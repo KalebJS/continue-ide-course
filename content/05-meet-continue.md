@@ -50,12 +50,12 @@ Continue typically offers different interaction modes:
 | Mode | What It Does | When to Use |
 |------|-------------|-------------|
 | **Chat** | Ask questions, get explanations | Learning, brainstorming, asking about files |
-| **Edit** | AI proposes changes to your code | Making specific edits to documents |
+| **Plan** | AI creates a step-by-step plan before acting | Planning complex changes before executing them |
 | **Agent** | AI autonomously makes multi-step changes | Complex workflows that touch multiple files |
 
-> **For this course,** we'll focus mostly on **Chat** mode, since it's the safest way to interact with AI and the best starting point for learning.
+> **For this course,** we'll focus mostly on **Chat** mode. When tackling larger tasks, try **Plan** mode first to think through the approach, then switch to **Agent** mode to execute — this reduces back-and-forth iteration.
 
-- [ ] Identify the chat modes available in your Continue panel
+- [ ] Identify the chat, plan, and agent modes available in your Continue panel
 
 ---
 
@@ -111,5 +111,5 @@ This is helpful when switching between different tasks, like moving from summari
 | Send a message | Type in input box, press Enter |
 | New conversation | Click New Session or Ctrl+L / Cmd+L |
 | Chat mode | Ask questions and get explanations |
-| Edit mode | AI proposes specific file changes |
+| Plan mode | AI creates a step-by-step plan before acting |
 | Agent mode | AI autonomously makes multi-step changes |
