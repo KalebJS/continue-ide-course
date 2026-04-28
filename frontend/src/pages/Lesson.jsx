@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, isValidElement } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { useProgress } from '../contexts/ProgressContext'
+import { usePlatform } from '../contexts/PlatformContext'
+import { preprocessContent } from '../utils/keybinds'
 import { ArrowLeft, ArrowRight, CheckCircle2, Square, SquareCheckBig, ArrowUp } from 'lucide-react'
 
 const TASK_REGEX = /^-\s*\[\s*\]\s*(.+)$/gm
@@ -23,6 +25,7 @@ export default function Lesson() {
   const [taskMap, setTaskMap] = useState({})
   const [showBackToTop, setShowBackToTop] = useState(false)
   const { markLessonComplete, unmarkLessonComplete, completedLessons, isTaskChecked, toggleTask, getLessonProgress } = useProgress()
+  const { platform } = usePlatform()
   const contentRef = useRef(null)
 
   useEffect(() => {
@@ -70,12 +73,12 @@ export default function Lesson() {
 
   const lessonProgress = getLessonProgress(lessonId, totalTaskCount)
 
-  // Build taskMap once per lesson content
+  // Build taskMap once per lesson content (preprocessed for platform)
   useEffect(() => {
     if (!lesson?.content) return
     const map = {}
     let idx = 0
-    const raw = lesson.content.replace(/<!--[\s\S]*?-->/g, '')
+    const raw = preprocessContent(lesson.content.replace(/<!--[\s\S]*?-->/g, ''), platform)
     raw.replace(TASK_REGEX, (_match, taskText) => {
       // Strip backticks so keys match getText() output, which walks the
       // React tree where backtick text becomes <code> elements (backticks lost)
@@ -84,7 +87,7 @@ export default function Lesson() {
       return ''
     })
     setTaskMap(map)
-  }, [lesson])
+  }, [lesson, platform])
 
   if (!lesson) {
     return (
@@ -94,8 +97,8 @@ export default function Lesson() {
     )
   }
 
-  // Strip comments so they don't render; keep task line text for our custom renderer
-  const rawContent = lesson.content.replace(/<!--[\s\S]*?-->/g, '')
+  // Strip comments so they don't render; preprocess keybinds for platform
+  const rawContent = preprocessContent(lesson.content.replace(/<!--[\s\S]*?-->/g, ''), platform)
 
   return (
     <>
@@ -120,6 +123,44 @@ export default function Lesson() {
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
+            p: ({ children, ...props }) => {
+              // Unwrap <p> when it only contains a media element (<video> or <img>).
+              // Browsers discard <video> inside <p>, breaking GIF playback.
+              const childArray = Array.isArray(children) ? children : [children]
+              const nonEmpty = childArray.filter(
+                (c) => !(typeof c === 'string' && c.trim() === '')
+              )
+              const isMediaParagraph =
+                nonEmpty.length === 1 &&
+                isValidElement(nonEmpty[0]) &&
+                (nonEmpty[0].type === 'video' || nonEmpty[0].type === 'img')
+              if (isMediaParagraph) return <>{children}</>
+              return <p {...props}>{children}</p>
+            },
+            img: ({ src, alt, ...props }) => {
+              const isGif = src && /\.gif$/i.test(src)
+              if (isGif) {
+                return (
+                  <video
+                    src={src}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="rounded-lg shadow-md my-6 w-full max-w-2xl"
+                    aria-label={alt || ''}
+                  />
+                )
+              }
+              return (
+                <img
+                  src={src}
+                  alt={alt || ''}
+                  className="rounded-lg shadow-md my-6 w-full max-w-2xl"
+                  loading="lazy"
+                />
+              )
+            },
             li: ({ children, ...props }) => {
               const text = getText(children).trim()
               const taskIdx = taskMap[text]

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Link } from 'react-router-dom'
+import { usePlatform } from '../contexts/PlatformContext'
+import { preprocessContent } from '../utils/keybinds'
 import { ArrowLeft } from 'lucide-react'
 
 export default function ReferenceGuide() {
@@ -27,10 +29,15 @@ export default function ReferenceGuide() {
       .catch(() => {})
   }, [selectedLesson])
 
+  const { platform } = usePlatform()
+
   const stripTaskPrefix = (content) => {
-    return content
-      .replace(/-\s*\[[ x]\]\s*/gm, '- ')
-      .replace(/<!--\s*total-tasks:\s*\d+\s*-->/g, '')
+    return preprocessContent(
+      content
+        .replace(/-\s*\[[ x]\]\s*/gm, '- ')
+        .replace(/<!--\s*total-tasks:\s*\d+\s*-->/g, ''),
+      platform
+    )
   }
 
   return (
