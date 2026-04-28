@@ -2,6 +2,7 @@ import { useState, useEffect, useLayoutEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useProgress } from '../contexts/ProgressContext'
 import { usePlatform } from '../contexts/PlatformContext'
+import { apiUrl } from '../utils/api'
 import {
   BookOpen,
   CheckCircle2,
@@ -20,7 +21,7 @@ export default function Sidebar() {
   const location = useLocation()
 
   useEffect(() => {
-    fetch('/api/lessons')
+    fetch(apiUrl('/api/lessons'))
       .then((r) => r.json())
       .then(setLessons)
       .catch(() => {})
@@ -151,7 +152,7 @@ export default function Sidebar() {
           Reference Guides
         </NavLink>
         <a
-          href="/api/download-workspace"
+          href={apiUrl('/api/download-workspace')}
           className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors"
         >
           <Download className="w-4 h-4" />

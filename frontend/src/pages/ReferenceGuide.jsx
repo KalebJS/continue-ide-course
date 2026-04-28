@@ -3,7 +3,8 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Link } from 'react-router-dom'
 import { usePlatform } from '../contexts/PlatformContext'
-import { preprocessContent, stripHintBlockquotes } from '../utils/keybinds'
+import { apiUrl } from '../utils/api'
+import { preprocessContent } from '../utils/keybinds'
 import { ArrowLeft } from 'lucide-react'
 
 export default function ReferenceGuide() {
@@ -12,7 +13,7 @@ export default function ReferenceGuide() {
   const [lessonContent, setLessonContent] = useState('')
 
   useEffect(() => {
-    fetch('/api/lessons')
+    fetch(apiUrl('/api/lessons'))
       .then((r) => r.json())
       .then((data) => {
         setLessons(data)
@@ -23,7 +24,7 @@ export default function ReferenceGuide() {
 
   useEffect(() => {
     if (!selectedLesson) return
-    fetch(`/api/lessons/${selectedLesson}`)
+    fetch(apiUrl(`/api/lessons/${selectedLesson}`))
       .then((r) => r.json())
       .then((data) => setLessonContent(data.content))
       .catch(() => {})
@@ -33,7 +34,7 @@ export default function ReferenceGuide() {
 
   const stripTaskPrefix = (content) => {
     return preprocessContent(
-      stripHintBlockquotes(content)
+      content
         .replace(/-\s*\[[ x]\]\s*/gm, '- ')
         .replace(/<!--\s*total-tasks:\s*\d+\s*-->/g, ''),
       platform

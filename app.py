@@ -1,8 +1,13 @@
 import io
 import os
+import re
 import zipfile
 
 from flask import Flask, jsonify, send_file, send_from_directory
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from werkzeug.wrappers import Response as WSGIResponse
+
+BASE_PATH = os.environ.get("BASE_PATH", "").rstrip("/")
 
 app = Flask(__name__)
 
@@ -11,6 +16,16 @@ CONTENT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content"
 PRACTICE_DIR = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "practice-files"
 )
+
+TASK_RE = re.compile(r"<!--\s*total-tasks:\s*(\d+)\s*-->")
+
+INJECT_META_RE = re.compile(r"(</head>)", re.IGNORECASE)
+
+
+def _inject_base_path(html):
+    """Insert a <meta> tag revealing the base path so the SPA can read it."""
+    meta = f'<meta name="base-path" content="{BASE_PATH or "/"}">'
+    return INJECT_META_RE.sub(meta + r"\1", html, count=1)
 
 LESSON_TITLES = {
     "01": "Welcome & Setup",
@@ -29,10 +44,7 @@ LESSON_TITLES = {
 
 @app.route("/api/lessons")
 def list_lessons():
-    import re
-
     modules = []
-    task_re = re.compile(r"<!--\s*total-tasks:\s*(\d+)\s*-->")
     for filename in sorted(os.listdir(CONTENT_DIR)):
         if filename.endswith(".md"):
             number = filename.split("-")[0]
@@ -44,7 +56,7 @@ def list_lessons():
             try:
                 with open(filepath, "r", encoding="utf-8") as f:
                     content = f.read()
-                    match = task_re.search(content)
+                    match = TASK_RE.search(content)
                     if match:
                         total_tasks = int(match.group(1))
             except Exception:
@@ -106,7 +118,20 @@ def serve_spa(path):
         file_path = os.path.join(DIST_DIR, path)
         if os.path.exists(file_path) and os.path.isfile(file_path):
             return send_from_directory(DIST_DIR, path)
-    return send_from_directory(DIST_DIR, "index.html")
+    # Serve index.html with base-path meta tag injected
+    with open(os.path.join(DIST_DIR, "index.html"), "r", encoding="utf-8") as f:
+        html = f.read()
+    html = _inject_base_path(html)
+    return app.response_class(html, mimetype="text/html")
+
+
+# When BASE_PATH is set (e.g. by Posit Connect), mount the app under that prefix
+# so that both API routes and SPA routes respond at /content/{GUID}/... paths.
+if BASE_PATH:
+    app.wsgi_app = DispatcherMiddleware(
+        WSGIResponse("Not Found", status=404),
+        {BASE_PATH: app.wsgi_app},
+    )
 
 
 if __name__ == "__main__":

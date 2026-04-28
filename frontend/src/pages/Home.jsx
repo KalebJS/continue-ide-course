@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useProgress } from '../contexts/ProgressContext'
+import { apiUrl } from '../utils/api'
 import { BookOpen, ArrowRight, Download, CheckCircle2, ChevronDown, Trash2 } from 'lucide-react'
 
 export default function Home() {
@@ -9,7 +10,7 @@ export default function Home() {
   const { completedLessons, resetProgress, getLessonProgress } = useProgress()
 
   useEffect(() => {
-    fetch('/api/lessons')
+    fetch(apiUrl('/api/lessons'))
       .then((r) => r.json())
       .then(setLessons)
       .catch(() => {})
@@ -40,7 +41,7 @@ export default function Home() {
 
       <div className="flex justify-center gap-4 mb-10">
         <a
-          href="/api/download-workspace"
+          href={apiUrl('/api/download-workspace')}
           className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors"
         >
           <Download className="w-4 h-4" />
