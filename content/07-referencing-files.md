@@ -20,6 +20,10 @@ The AI will give you generic project risk advice because it doesn't know which p
 
 Now the AI can give you a precise, accurate answer based on the actual document.
 
+![Responses without vs with file context](/images/07-without-context.png)
+
+![Responses with file context](/images/07-with-context.png)
+
 - [ ] Ask Continue a question without file context, then ask the same question with file context and compare the answers
 
 ---
@@ -32,8 +36,12 @@ The most important way to give Continue context is by **mentioning files**. In t
 2. Select a file from the list
 3. The file name appears in your prompt as a reference
 
+![The @ mention file selector in Continue](/images/07-at-mention-file-list.png)
+
 For example:
 > @kickoff.md Summarize the key decisions from this meeting.
+
+![Using @ mention to reference a file](/images/07-at-mention-demo.gif)
 
 ### Tips for @ mentions:
 - You can reference **multiple files** in one prompt by adding multiple `@` references
@@ -57,6 +65,8 @@ Example:
 
 This lets the AI scan all three files and compile a consolidated answer.
 
+![Referencing multiple files with @ mentions](/images/07-multiple-at-mentions.gif)
+
 - [ ] Use @ mentions to reference both `kickoff.md` and `design-review.md`, then ask Continue to compare the risks discussed in each meeting
 
 ---
@@ -73,6 +83,8 @@ This is especially helpful when:
 - You only want the AI to focus on one section of a long document
 - You want to ask about a specific paragraph, table, or bullet point
 - You want the AI to edit a specific section without touching the rest
+
+![Highlighting text in the editor for focused context](/images/07-highlight-text-context.gif)
 
 - [ ] Select the "Risks Identified" section in `kickoff.md`, then ask Continue to suggest additional mitigations for each risk
 

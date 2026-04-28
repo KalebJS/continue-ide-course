@@ -14,6 +14,8 @@ VS Code has four main areas you should know about:
 
 The Activity Bar is the strip of icons on the far left. Each icon opens a different view:
 
+![VS Code Activity Bar with labeled icons](/images/02-activity-bar-annotated.png)
+
 | Icon | View | What It Does |
 |------|------|-------------|
 | 📁 File icon | Explorer | Browse and manage your files |
@@ -28,6 +30,8 @@ The Activity Bar is the strip of icons on the far left. Each icon opens a differ
 
 When you click an icon in the Activity Bar, the Primary Side Bar opens next to it. The most important one for you is the **Explorer** view, which shows your project files in a tree structure.
 
+![Explorer panel showing project files](/images/02-explorer-panel.png)
+
 You can:
 - Click a file name to open it in the editor
 - Click the arrows next to folder names to expand or collapse them
@@ -37,9 +41,13 @@ You can:
 
 This is where you actually read and edit files. When you open a file, it appears as a tab at the top. You can have multiple files open at the same time.
 
+![Multiple files open as tabs in the editor](/images/02-editor-tabs.png)
+
 ### 4. Panel (Bottom)
 
 The Panel area appears at the bottom and contains the **Terminal**, **Problems**, **Output**, and **Debug Console** views. For this course, you mostly won't need this area. You can toggle it with ``Ctrl+` `` (View > Terminal).
+
+![The bottom Panel with the Terminal active](/images/02-panel-terminal.png)
 
 ---
 
@@ -56,6 +64,8 @@ For example, try typing:
 - `toggle sidebar` — to show or hide the side panel
 - `word wrap` — to turn on word wrapping so long lines don't scroll off screen
 - `format document` — to clean up the formatting of the current file
+
+![Using the Command Palette to toggle word wrap](/images/02-command-palette-toggle-wrap.gif)
 
 - [ ] Open the Command Palette and run "Toggle Word Wrap"
 
@@ -89,6 +99,8 @@ Need to quickly jump to a file? Use **Quick Open**:
 
 Just start typing a file name and press Enter to open it. For example, type `stake` and it will find `stakeholders.md`.
 
+![Using Quick Open to find and open a file](/images/02-quick-open.gif)
+
 - [ ] Use Quick Open (Ctrl+P / Cmd+P) to find and open `stakeholders.md`
 
 ---
@@ -103,6 +115,8 @@ As a project manager, you'll often want to look at two documents at the same tim
 3. Open another file in the new pane
 
 You can also drag a file's tab to the right side of the editor to create a split.
+
+![Opening split view to see two files side by side](/images/02-split-view.gif)
 
 - [ ] Open `kickoff.md` and `requirements.md` side by side using split view
 

@@ -14,6 +14,8 @@ There are several ways to create a new file in VS Code:
 2. **From the menu:** File > New File (this creates an untitled file you can save later)
 3. **Keyboard shortcut:** `Ctrl+N` (Windows/Linux) or `Cmd+N` (macOS)
 
+![Creating a new file from the Explorer panel](/images/03-create-new-file.gif)
+
 > **Important:** Always include the file extension when naming your file. For example:
 > - `notes.md` for a Markdown file
 > - `report.txt` for a plain text file
@@ -31,6 +33,8 @@ By default, VS Code does **not** save your changes automatically. There are two 
 - **Auto Save:** Enable it with **File > Auto Save** — this saves every few seconds
 
 We recommend turning on Auto Save for day-to-day work. You'll see a dot on the file tab if there are unsaved changes.
+
+![The dot indicator on a file tab showing unsaved changes](/images/03-unsaved-dot-tab.png)
 
 - [ ] Turn on Auto Save (File > Auto Save) if you haven't already
 
@@ -72,10 +76,14 @@ Press `Ctrl+H` (Windows/Linux) or `Option+Cmd+F` (macOS). This works the same as
 - Type the replacement text
 - Click **Replace** (single) or **Replace All** (every match)
 
+![The Find and Replace bar in the editor](/images/03-find-replace-bar.png)
+
 - [ ] Use Find and Replace (Ctrl+H / Option+Cmd+F) to search for "Project Phoenix" in README.md
 
 ### Search across all files
 Press `Ctrl+Shift+F` (or `Cmd+Shift+F`) to open the project-wide search in the side panel. This searches every file in your workspace at once — incredibly useful for finding which document mentions a specific person, term, or requirement.
+
+![Project-wide search showing results across multiple files](/images/03-project-wide-search.png)
 
 - [ ] Use project-wide search (Ctrl+Shift+F / Cmd+Shift+F) to find which files mention "CRM"
 
@@ -94,6 +102,8 @@ Click at the start of your selection, hold **Shift**, and click at the end. This
 
 ### Move lines up or down
 Select one or more lines, then press `Alt+Up/Down` (Windows/Linux) or `Option+Up/Down` (macOS) to move the entire block up or down. This is great for reorganizing lists or paragraphs.
+
+![Moving a table row up and down using Alt+Arrow keys](/images/03-move-line-alt-arrow.gif)
 
 - [ ] Open `stakeholders.md` and try moving a row in the table up or down using Alt+Arrow keys
 
@@ -129,6 +139,8 @@ VS Code supports multiple cursors, which lets you edit several lines at once:
 3. Type normally and it appears at every cursor location
 
 This is handy for editing several rows in a table or list at the same time.
+
+![Using multiple cursors to edit several lines at once](/images/03-multiple-cursors.gif)
 
 - [ ] Try creating multiple cursors by holding Alt/Option and clicking on two different lines, then typing some text
 

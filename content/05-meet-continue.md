@@ -31,6 +31,8 @@ The panel opens on the right side of VS Code. You'll see:
 - A text **input box** at the bottom where you type your messages
 - A **model selector** at the top (if configured with multiple models)
 
+![The Continue panel open in VS Code](/images/05-continue-panel-empty.png)
+
 - [ ] Open the Continue panel using the Activity Bar icon or the keyboard shortcut
 
 ---
@@ -46,6 +48,8 @@ The Continue chat works like any messaging app:
 ### Chat modes
 
 Continue typically offers different interaction modes:
+
+![Chat, Plan, and Agent modes in Continue](/images/05-chat-modes.png)
 
 | Mode | What It Does | When to Use |
 |------|-------------|-------------|
@@ -71,6 +75,8 @@ Let's try a simple prompt. Make sure you have the Project Phoenix folder open in
 3. Press Enter and wait for the response
 
 The AI will read your `README.md` file and give you a summary. Pretty cool, right?
+
+![Asking Continue to summarize the README file](/images/05-first-prompt-summary.gif)
 
 - [ ] Ask Continue to summarize the README.md file
 
@@ -98,6 +104,8 @@ If you want to start fresh (clear the history so the AI doesn't get confused by 
 2. Or press `Ctrl+L` (Windows/Linux) / `Cmd+L` (macOS) for a quick new session
 
 This is helpful when switching between different tasks, like moving from summarizing meeting notes to drafting a status report.
+
+![Starting a new chat session in Continue](/images/05-new-session.gif)
 
 - [ ] Start a new chat session in Continue
 

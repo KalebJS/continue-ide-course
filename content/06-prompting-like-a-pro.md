@@ -19,6 +19,8 @@ A good prompt has three parts:
 
 This is too vague. Which project? What kind of information?
 
+![Response to a vague prompt](/images/06-vague-prompt.png)
+
 ### Example: A good prompt
 > Based on the stakeholders.md file, create a summary table showing each stakeholder's name, role, and communication preference. Only include primary stakeholders.
 
@@ -26,6 +28,8 @@ This works because it provides:
 - **Context:** "Based on the stakeholders.md file" — tells the AI where to look
 - **Task:** "create a summary table" — tells the AI what to do
 - **Format:** "showing each stakeholder's name, role, and communication preference" — tells the AI how to structure the answer
+
+![Response to a specific prompt with context, task, and format](/images/06-specific-prompt.png)
 
 - [ ] Write a clear, specific prompt asking Continue to list all action items from the kickoff meeting notes
 
@@ -52,6 +56,8 @@ The first response from AI is rarely perfect. That's okay! Think of it as a conv
 
 ### Strategy 1: Ask for adjustments
 > That's good, but can you make it more concise and add a "priority" column?
+
+![Iterating on a response by asking for adjustments](/images/06-iterating-response.gif)
 
 ### Strategy 2: Ask for a different format
 > Can you reformat that as a numbered list instead of a table?
@@ -86,6 +92,8 @@ Here are ready-to-use prompt templates you can adapt:
 > Compare the requirements in [filename A] with the meeting notes in [filename B]. List any new requirements mentioned in the meeting that aren't in the requirements document.
 
 - [ ] Use one of the prompt templates above (or adapt one) to ask Continue a question about your Project Phoenix files
+
+![Using a prompt template with Continue](/images/06-prompt-template-demo.gif)
 
 ---
 

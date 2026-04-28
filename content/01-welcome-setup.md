@@ -22,6 +22,8 @@ VS Code is a free, powerful text editor made by Microsoft. It works on Windows, 
 2. Click the **Download** button for your operating system (Windows, macOS, or Linux)
 3. Run the installer and follow the default options
 
+![VS Code download page](/images/01-vscode-download.png)
+
 > **Tip:** On macOS, drag the VS Code app into your Applications folder after downloading. On Windows, the installer handles everything.
 
 - [ ] Download and install VS Code on your computer
@@ -35,6 +37,8 @@ Once VS Code is installed, open it. You'll see a welcome screen. Take a moment t
 - The **Activity Bar** on the far left (icons for files, search, extensions, etc.)
 - The **Editor** area in the center (where you'll write and edit text)
 - The **Terminal** at the bottom (we won't use this much in this course)
+
+![VS Code first launch](/images/01-vscode-first-open.png)
 
 - [ ] Open VS Code and identify the Activity Bar, the Editor, and the Terminal panel
 
@@ -52,6 +56,8 @@ Continue is the AI assistant that lives inside VS Code. It lets you chat with an
 
 Once installed, you'll see a new **Continue** icon in your Activity Bar. Clicking it opens the AI chat panel on the right side of your screen.
 
+![Continue extension in the VS Code Marketplace](/images/01-install-continue.gif)
+
 - [ ] Install the Continue extension from the VS Code Marketplace
 
 ---
@@ -63,6 +69,8 @@ After installing Continue, it will guide you through setup. Here's what to do:
 1. Click the **Continue** icon in the Activity Bar
 2. Continue will ask you to choose an AI model provider. Select the one your organization uses (for example, OpenAI, Anthropic, or a local model)
 3. If prompted, enter your API key or sign in with your organization's credentials
+
+![Continue model provider selection screen](/images/01-continue-setup-provider.png)
 
 > **Note:** Your IT team may have already configured this. If you're unsure, ask your manager or IT department which provider to select.
 
@@ -81,6 +89,8 @@ Throughout this course, you'll work with a fictional project called **Project Ph
 5. Click **Yes, I trust the authors** when prompted
 
 You should now see the project files in the Explorer panel on the left side of VS Code.
+
+![Opening the Project Phoenix folder in VS Code](/images/01-open-project-phoenix.gif)
 
 - [ ] Download, extract, and open the Project Phoenix folder in VS Code
 

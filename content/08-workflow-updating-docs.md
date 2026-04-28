@@ -19,6 +19,8 @@ Open `meeting_notes/design-review.md` and read through it. You'll notice:
 ### What's in the requirements document?
 Open `requirements.md` and read through it. This is the current, official requirements document that needs updating.
 
+![Opening both documents side by side in split view](/images/08-split-view-both-docs.gif)
+
 - [ ] Open both `requirements.md` and `meeting_notes/design-review.md` side by side using split view
 
 ---
@@ -45,6 +47,8 @@ Now let's use Continue to help identify what needs to change. Open the Continue 
 > I have a requirements document (@requirements.md) and new meeting notes (@design-review.md). Compare them and list all the new requirements or changes from the meeting notes that are not yet reflected in the requirements document.
 
 Review the AI's list against your own. Did it catch everything? Did it add anything you missed?
+
+![Using @ mentions to compare two documents](/images/08-compare-prompt.gif)
 
 - [ ] Use Continue to compare the two documents and list the changes needed
 
@@ -88,6 +92,8 @@ The AI gave you a draft — now it's time for your most important job: **review 
 
 You can also use Continue's **Plan** mode to plan out your changes before implementing them if you're comfortable with that workflow.
 
+![Using Plan mode to plan document changes](/images/08-plan-mode-planning.png)
+
 - [ ] Copy the AI's drafted updates, verify them against the meeting notes, and apply them to requirements.md
 
 ---
@@ -99,6 +105,8 @@ After making your changes, ask Continue one more question to validate:
 > Review my updated @requirements.md against @design-review.md. Are there any meeting decisions that are still not reflected in the requirements?
 
 This creates a nice quality-check loop where the AI helps you catch anything you might have missed.
+
+![Verifying the updated document against meeting notes](/images/08-apply-and-verify.gif)
 
 - [ ] Ask Continue to verify your updated requirements document is complete
 

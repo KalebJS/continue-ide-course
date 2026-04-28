@@ -25,6 +25,8 @@ Headings structure your document. Use `#` followed by a space:
 ###### Heading 6 (smallest)
 ```
 
+![Markdown headings shown as raw syntax and rendered output](/images/04-headings-rendered.png)
+
 > **Tip:** For project documents, `#` is typically the document title, `##` for major sections, and `###` for subsections.
 
 - [ ] In your `my_notes.md` file, add headings for a meeting notes document
@@ -55,6 +57,8 @@ To force a line break within a paragraph, add **two spaces** at the end of a lin
 | Italic | `*emphasis*` | *emphasis* |
 | Bold + Italic | `***very important***` | ***very important*** |
 | Strikethrough | `~~deleted~~` | ~~deleted~~ |
+
+![Bold, italic, and strikethrough formatting rendered](/images/04-bold-italic-table.png)
 
 Use bold for key terms and action items. Use italic for emphasis or titles.
 
@@ -92,6 +96,8 @@ Use `- [ ]` for unchecked and `- [x]` for checked:
 ```
 
 > **Tip:** Checklists are perfect for tracking action items from meetings!
+
+![A rendered checklist with checked and unchecked items](/images/04-checklist-rendered.png)
 
 - [ ] Create an unordered list and an ordered list in `my_notes.md`
 
@@ -134,6 +140,8 @@ Tables are incredibly useful for project managers. Here's how to create them:
 - Use pipes `|` to separate columns
 - Use hyphens `---` for the header row separator
 - Alignment: `:---` (left), `:---:` (center), `---:` (right)
+
+![A rendered Markdown table](/images/04-table-rendered.png)
 
 ```markdown
 | Left-aligned | Center-aligned | Right-aligned |
@@ -188,6 +196,8 @@ VS Code has a built-in Markdown preview! Here's how to use it:
 3. Or click the **Preview** icon in the top-right corner of the editor (it looks like a magnifying glass with lines)
 
 To see both the editor and preview side by side, press `Ctrl+K V` (Windows/Linux) or `Cmd+K V` (macOS).
+
+![Opening the Markdown preview and side-by-side view](/images/04-markdown-preview.gif)
 
 - [ ] Open the preview for `README.md` using Ctrl+Shift+V / Cmd+Shift+V
 

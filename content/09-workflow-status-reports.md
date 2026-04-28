@@ -19,6 +19,8 @@ It's the end of Sprint 4, and you need to write a weekly status report for the P
 
 You'll use Continue to gather information from these files and generate a polished status report.
 
+![The status report template in the editor](/images/09-status-report-template.png)
+
 - [ ] Open `status_report.md` and review the template structure
 
 ---
@@ -35,6 +37,8 @@ Try this prompt:
 > 3. A list of what's planned for the current/upcoming sprint
 > 4. Any risks or blockers mentioned across these documents
 
+![Gathering project information using multiple @ mentions](/images/09-gather-info-multi-file.gif)
+
 - [ ] Use Continue with multiple @ mentions to gather project status information
 
 ---
@@ -50,6 +54,8 @@ Take the output from Step 1 and refine it. You might need to:
 Try an iterative prompt:
 
 > Based on your previous answer, draft a 2-3 sentence executive summary for the status report. The audience is Dana Mitchell (VP of Marketing). Keep it professional and concise. Focus on: are we on track, what was accomplished, and what's coming next.
+
+![Drafting an executive summary tailored to the VP of Marketing](/images/09-draft-exec-summary.gif)
 
 - [ ] Ask Continue to draft an executive summary tailored to the VP of Marketing
 
@@ -69,6 +75,8 @@ Now let's fill in the status report template. Open `status_report.md` — you'll
 Use Continue to generate content for each section. You can do this in one prompt or break it into multiple:
 
 > Using the information from @README.md, @sprint-planning.md, @kickoff.md, and @design-review.md, fill in each section of the status report template in @status_report.md. Use realistic data based on what you find in these files. Format everything in Markdown.
+
+![Asking Continue to fill in the status report template](/images/09-fill-template.gif)
 
 - [ ] Ask Continue to fill in the status report template based on project files
 
@@ -93,8 +101,10 @@ Here's what a well-formatted section might look like:
 - **Navigation structure:** Approved responsive navigation with hamburger menu for mobile
 - **Color palette:** Locked in navy (#1B2A4A), gold (#D4A843), teal (#2DA68E), and grays
 - **CRM proof-of-concept:** HubSpot integration POC completed, identified batch submission need
-- **Content audit:** 40% complete (top 50 priority pages in progress)
+- **2024-01-15:** Content audit 40% complete (top 50 priority pages in progress)
 ```
+
+![Formatting the status report with Markdown and previewing it](/images/09-markdown-format-preview.gif)
 
 - [ ] Format the status report using proper Markdown: headings, bold text, lists, and tables
 
@@ -113,6 +123,8 @@ Final review checklist:
 Try one more prompt for quality assurance:
 
 > Review the status report I've written in @status_report.md against the project files @sprint-planning.md and @README.md. Flag any inaccuracies or missing information.
+
+![Using Continue to verify the final status report](/images/09-qa-verify.gif)
 
 - [ ] Use Continue to verify the status report is accurate and complete, then preview it with Ctrl+Shift+V / Cmd+Shift+V
 

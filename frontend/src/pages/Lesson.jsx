@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef, isValidElement } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import rehypeUnwrapImages from 'rehype-unwrap-images'
 import { useProgress } from '../contexts/ProgressContext'
 import { usePlatform } from '../contexts/PlatformContext'
 import { preprocessContent } from '../utils/keybinds'
@@ -122,45 +123,16 @@ export default function Lesson() {
       <div className="prose prose-lg prose-gray max-w-none">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeUnwrapImages]}
           components={{
-            p: ({ children, ...props }) => {
-              // Unwrap <p> when it only contains a media element (<video> or <img>).
-              // Browsers discard <video> inside <p>, breaking GIF playback.
-              const childArray = Array.isArray(children) ? children : [children]
-              const nonEmpty = childArray.filter(
-                (c) => !(typeof c === 'string' && c.trim() === '')
-              )
-              const isMediaParagraph =
-                nonEmpty.length === 1 &&
-                isValidElement(nonEmpty[0]) &&
-                (nonEmpty[0].type === 'video' || nonEmpty[0].type === 'img')
-              if (isMediaParagraph) return <>{children}</>
-              return <p {...props}>{children}</p>
-            },
-            img: ({ src, alt, ...props }) => {
-              const isGif = src && /\.gif$/i.test(src)
-              if (isGif) {
-                return (
-                  <video
-                    src={src}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="rounded-lg shadow-md my-6 w-full max-w-2xl"
-                    aria-label={alt || ''}
-                  />
-                )
-              }
-              return (
-                <img
-                  src={src}
-                  alt={alt || ''}
-                  className="rounded-lg shadow-md my-6 w-full max-w-2xl"
-                  loading="lazy"
-                />
-              )
-            },
+            img: ({ src, alt, ...props }) => (
+              <img
+                src={src}
+                alt={alt || ''}
+                className="rounded-lg shadow-md my-6 w-full max-w-2xl"
+                loading="lazy"
+              />
+            ),
             li: ({ children, ...props }) => {
               const text = getText(children).trim()
               const taskIdx = taskMap[text]
