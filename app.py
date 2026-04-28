@@ -22,7 +22,8 @@ LESSON_TITLES = {
     "07": "Telling AI About Your Work",
     "08": "Workflow 1: Updating Docs",
     "09": "Workflow 2: Status Reports",
-    "10": "Conclusion & Reference Guide",
+    "10": "Using Agent Mode",
+    "11": "Conclusion & Reference Guide",
 }
 
 

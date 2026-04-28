@@ -110,7 +110,7 @@ export default function Lesson() {
     <>
       {totalTaskCount > 0 && (
         <div className="fixed top-0 left-0 lg:left-72 right-0 z-30 bg-gray-50/80 backdrop-blur-md border-b border-indigo-100 shadow-sm">
-          <div className="max-w-3xl mx-auto px-6 py-4">
+          <div className="max-w-4xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-indigo-800">Task Progress</span>
               <span className="text-sm text-indigo-600">{lessonProgress}%</span>
@@ -124,7 +124,7 @@ export default function Lesson() {
           </div>
         </div>
       )}
-      <div className={`max-w-3xl mx-auto px-6 py-12${totalTaskCount > 0 ? ' pt-28' : ''}`} ref={contentRef}>
+      <div className={`max-w-4xl mx-auto px-6 py-12${totalTaskCount > 0 ? ' pt-28' : ''}`} ref={contentRef}>
       <div className="prose prose-lg prose-gray max-w-none">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
