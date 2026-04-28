@@ -30,11 +30,14 @@ Congratulations on completing the VS Code & Continue training course! Let's reca
 - Referencing files with @ mentions
 - Using highlighted text for focused context
 - Iterating on AI responses to refine output
+- Using Agent mode for autonomous multi-file changes
+- Using the Plan-then-Agent workflow to plan before executing
 - Quality-checking AI-generated content against source documents
 
 ### Workflow Skills
 - Updating documents based on meeting notes with AI assistance
 - Generating status reports from multiple project files
+- Using Agent mode to execute complex multi-file updates
 - Using VS Code's split view alongside the Continue panel
 
 - [ ] Take a moment to reflect: which skill do you think will be most useful in your daily work?
@@ -126,6 +129,16 @@ Before sending a prompt, ask yourself:
 - [ ] Did I specify **the format** I want the answer in?
 - [ ] Did I mention **the audience** (who is this for)?
 - [ ] Did I set **constraints** (length, tone, what to exclude)?
+
+### Continue Modes
+
+| Mode | What It Does | When to Use |
+|------|-------------|------------|
+| **Chat** | Answers questions, explains concepts | Quick questions, brainstorming |
+| **Plan** | Creates a step-by-step plan, no edits | Planning complex changes before executing |
+| **Agent** | Autonomously reads, edits, and writes files | Multi-file, multi-step tasks |
+
+**Best workflow for complex tasks:** Plan first → review the plan → switch to Agent → review each change
 
 ---
 
