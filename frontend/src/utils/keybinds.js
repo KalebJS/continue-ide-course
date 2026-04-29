@@ -122,7 +122,7 @@ export function preprocessContent(content, platform) {
 
   // 2b. Single-backtick pair with slash: `Ctrl+X` / `Cmd+X`
   result = result.replace(
-    /`([^`\/]+)`\s*\/\s*`([^`]+)`/g,
+    /`([^`/]+)`\s*\/\s*`([^`]+)`/g,
     (m, left, right) => {
       const pick = pickPlatform(left, right, platform)
       return pick !== null ? `\`${pick}\`` : m
@@ -149,12 +149,12 @@ export function preprocessContent(content, platform) {
 
   // 2e. Parenthetical with explicit platform labels
   //     `Key` (Windows/Linux) or `Key` (macOS)
-  const winParen = '(?:Windows\\/Linux|Windows|Win)'
+  const winParen = '(?:Windows/Linux|Windows|Win)'
   const macParen = '(?:macOS|Mac)'
 
   result = result.replace(
     new RegExp(
-      '`([^`]+)`\\s*\\(' + winParen + '\\)\\s*(?:or|\\/+)\\s*`([^`]+)`\\s*\\(' + macParen + '\\)',
+      '`([^`]+)`\\s*\\(' + winParen + '\\)\\s*(?:or|/)\\s*`([^`]+)`\\s*\\(' + macParen + '\\)',
       'gi'
     ),
     (m, win, mac) => platform === 'mac' ? `\`${mac.trim()}\`` : `\`${win.trim()}\``
@@ -162,7 +162,7 @@ export function preprocessContent(content, platform) {
 
   result = result.replace(
     new RegExp(
-      '`([^`]+)`\\s*\\(' + macParen + '\\)\\s*(?:or|\\/+)\\s*`([^`]+)`\\s*\\(' + winParen + '\\)',
+      '`([^`]+)`\\s*\\(' + macParen + '\\)\\s*(?:or|/+)\\s*`([^`]+)`\\s*\\(' + winParen + '\\)',
       'gi'
     ),
     (m, mac, win) => platform === 'mac' ? `\`${mac.trim()}\`` : `\`${win.trim()}\``
@@ -181,14 +181,14 @@ export function preprocessContent(content, platform) {
   // 2g. Plain text parenthetical: Ctrl+Shift+F (Windows/Linux) or Cmd+Shift+F (macOS)
   result = result.replace(
     new RegExp(
-      '\\b(Ctrl(?:\\+[A-Z][A-Za-z0-9]*)+)\\s*\\(' + winParen + '\\)\\s*(?:or|\\/+)\\s*(Cmd(?:\\+[A-Z][A-Za-z0-9]*)+)\\s*\\(' + macParen + '\\)',
+      '\\b(Ctrl(?:\\+[A-Z][A-Za-z0-9]*)+)\\s*\\(' + winParen + '\\)\\s*(?:or|/+)\\s*(Cmd(?:\\+[A-Z][A-Za-z0-9]*)+)\\s*\\(' + macParen + '\\)',
       'gi'
     ),
     (m, win, mac) => platform === 'mac' ? mac : win
   )
   result = result.replace(
     new RegExp(
-      '\\b(Cmd(?:\\+[A-Z][A-Za-z0-9]*)+)\\s*\\(' + macParen + '\\)\\s*(?:or|\\/+)\\s*(Ctrl(?:\\+[A-Z][A-Za-z0-9]*)+)\\s*\\(' + winParen + '\\)',
+      '\\b(Cmd(?:\\+[A-Z][A-Za-z0-9]*)+)\\s*\\(' + macParen + '\\)\\s*(?:or|/+)\\s*(Ctrl(?:\\+[A-Z][A-Za-z0-9]*)+)\\s*\\(' + winParen + '\\)',
       'gi'
     ),
     (m, mac, win) => platform === 'mac' ? mac : win
@@ -211,25 +211,4 @@ export function preprocessContent(content, platform) {
   result = result.replace(/\n{3,}/g, '\n\n')
 
   return result
-}
-
-// ── Hint blockquote stripper ──────────────────────────────────────────────
-// Removes hint blockquotes (lines starting with "> 💡 **Hint: ...") from
-// content entirely, including continuation lines.
-export function stripHintBlockquotes(content) {
-  return content
-    .split('\n')
-    .filter((line) => !line.startsWith('> 💡 **Hint:'))
-    .filter((line, idx, arr) => {
-      if (line.startsWith('> ') && !line.startsWith('> 💡')) {
-        for (let i = idx - 1; i >= 0; i--) {
-          const prev = arr[i]
-          if (prev.startsWith('> 💡 **Hint:')) return false
-          if (prev.startsWith('> ')) continue
-          break
-        }
-      }
-      return true
-    })
-    .join('\n')
 }

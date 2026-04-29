@@ -1,8 +1,8 @@
 import { useState, useEffect, useLayoutEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useProgress } from '../contexts/ProgressContext'
-import { usePlatform } from '../contexts/PlatformContext'
 import { apiUrl } from '../utils/api'
+import OsToggle from './OsToggle'
 import {
   BookOpen,
   CheckCircle2,
@@ -10,7 +10,6 @@ import {
   Download,
   FileText,
   Menu,
-  Monitor,
   X,
 } from 'lucide-react'
 
@@ -54,41 +53,6 @@ export default function Sidebar() {
         ? 'bg-indigo-100 text-indigo-800 font-semibold'
         : 'text-gray-700 hover:bg-gray-100'
     }`
-
-  function OsToggle() {
-    const { platform, setPlatform } = usePlatform()
-    return (
-      <div className="flex items-center gap-2 px-3 py-2">
-        <Monitor className="w-4 h-4 text-gray-400" />
-        <div className="flex bg-gray-100 rounded-md p-0.5">
-          <button
-            onClick={() => setPlatform('mac')}
-            className={`px-2.5 py-1 text-xs font-medium rounded transition-colors ${
-              platform === 'mac'
-                ? 'bg-white text-indigo-700 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-            aria-label="Use Mac shortcuts"
-            aria-pressed={platform === 'mac'}
-          >
-            Mac
-          </button>
-          <button
-            onClick={() => setPlatform('windows')}
-            className={`px-2.5 py-1 text-xs font-medium rounded transition-colors ${
-              platform === 'windows'
-                ? 'bg-white text-indigo-700 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-            aria-label="Use Windows shortcuts"
-            aria-pressed={platform === 'windows'}
-          >
-            Windows
-          </button>
-        </div>
-      </div>
-    )
-  }
 
   const sidebarContent = (
     <>
