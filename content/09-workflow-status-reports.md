@@ -23,9 +23,6 @@ You'll use Continue to gather information from these files and generate a polish
 
 - [ ] Open `status_report.md` and review the template structure
 
-> 💡 **Hint: Opening Multiple Files**
-> Use Quick Open to jump between files fast: press `Ctrl+P` (Windows/Linux) or `Cmd+P` (macOS), then type part of the file name. Keep multiple files open as tabs and switch with `Ctrl+Tab` (Windows/Linux) or `Cmd+Tab` (macOS).
-
 ---
 
 ## Step 1: Gathering Information
@@ -43,9 +40,6 @@ Try this prompt:
 ![Gathering project information using multiple @ mentions](/images/09-gather-info-multi-file.gif)
 
 - [ ] Use Continue with multiple @ mentions to gather project status information
-
-> 💡 **Hint: Referencing Multiple Files**
-> Type `@` in the Continue chat, select a file, then type `@` again to add another. Each `@` reference tells Continue to read that file before answering. The files autocomplete as you type, so you don't need to remember the exact names.
 
 ---
 
@@ -113,9 +107,6 @@ Here's what a well-formatted section might look like:
 ![Formatting the status report with Markdown and previewing it](/images/09-markdown-format-preview.gif)
 
 - [ ] Format the status report using proper Markdown: headings, bold text, lists, and tables
-
-> 💡 **Hint: Previewing Your Markdown**
-> Press `Ctrl+Shift+V` (Windows/Linux) or `Cmd+Shift+V` (macOS) to open a Markdown preview. For a side-by-side view, use `Ctrl+K V` (Windows/Linux) or `Cmd+K V` (macOS). The preview updates live as you type.
 
 ---
 
