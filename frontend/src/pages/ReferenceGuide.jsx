@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Link } from 'react-router-dom'
 import { usePlatform } from '../contexts/PlatformContext'
-import { apiUrl } from '../utils/api'
+import { apiUrl, getBasePath } from '../utils/api'
 import { preprocessContent } from '../utils/keybinds'
 import { ArrowLeft } from 'lucide-react'
 
@@ -80,7 +80,16 @@ export default function ReferenceGuide() {
         <div className="flex-1 min-w-0 bg-white rounded-xl border border-gray-200 p-8">
           <div className="prose prose-gray max-w-none">
             {lessonContent ? (
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{stripTaskPrefix(lessonContent)}</ReactMarkdown>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  img: ({ src, alt, ...props }) => {
+                    const base = getBasePath().replace(/\/$/, '')
+                    const resolvedSrc = src?.startsWith('/') ? `${base}${src}` : src
+                    return <img src={resolvedSrc} alt={alt || ''} loading="lazy" {...props} />
+                  },
+                }}
+              >{stripTaskPrefix(lessonContent)}</ReactMarkdown>
             ) : (
               <div className="animate-pulse text-gray-400">Loading...</div>
             )}

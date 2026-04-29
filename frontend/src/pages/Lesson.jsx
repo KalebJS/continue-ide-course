@@ -1,13 +1,15 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeUnwrapImages from 'rehype-unwrap-images'
 import { useProgress } from '../contexts/ProgressContext'
 import { usePlatform } from '../contexts/PlatformContext'
-import { apiUrl } from '../utils/api'
+import { apiUrl, getBasePath } from '../utils/api'
 import { preprocessContent } from '../utils/keybinds'
 import { ArrowLeft, ArrowRight, CheckCircle2, Square, SquareCheckBig, ArrowUp } from 'lucide-react'
+
+const _BASE = getBasePath().replace(/\/$/, '')
 
 const TASK_REGEX = /^-\s*\[\s*\]\s*(.+)$/gm
 const TOTAL_TASKS_REGEX = /<!--\s*total-tasks:\s*(\d+)\s*-->/
@@ -24,7 +26,6 @@ export default function Lesson() {
   const { lessonId } = useParams()
   const [lesson, setLesson] = useState(null)
   const [lessons, setLessons] = useState([])
-  const [taskMap, setTaskMap] = useState({})
   const [showBackToTop, setShowBackToTop] = useState(false)
   const { markLessonComplete, unmarkLessonComplete, completedLessons, isTaskChecked, toggleTask, getLessonProgress } = useProgress()
   const { platform } = usePlatform()
@@ -38,14 +39,14 @@ export default function Lesson() {
   }, [])
 
   useEffect(() => {
-    // Reset to loading state and scroll to top immediately on lesson change
-    setLesson(null)
     const el = document.getElementById('main-scroll')
     if (el) el.scrollTop = 0
 
+    let cancelled = false
     fetch(apiUrl(`/api/lessons/${lessonId}`))
       .then((r) => r.json())
       .then((data) => {
+        if (cancelled) return
         setLesson(data)
         // Scroll to top again after new content renders
         requestAnimationFrame(() => {
@@ -54,6 +55,7 @@ export default function Lesson() {
         })
       })
       .catch(() => {})
+    return () => { cancelled = true }
   }, [lessonId])
 
   // Show back-to-top button when scrolled down
@@ -76,8 +78,8 @@ export default function Lesson() {
   const lessonProgress = getLessonProgress(lessonId, totalTaskCount)
 
   // Build taskMap once per lesson content (preprocessed for platform)
-  useEffect(() => {
-    if (!lesson?.content) return
+  const taskMap = useMemo(() => {
+    if (!lesson?.content) return {}
     const map = {}
     let idx = 0
     const raw = preprocessContent(lesson.content.replace(/<!--[\s\S]*?-->/g, ''), platform)
@@ -88,7 +90,7 @@ export default function Lesson() {
       map[key] = idx++
       return ''
     })
-    setTaskMap(map)
+    return map
   }, [lesson, platform])
 
   if (!lesson) {
@@ -126,14 +128,19 @@ export default function Lesson() {
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeUnwrapImages]}
           components={{
-            img: ({ src, alt, ...props }) => (
-              <img
-                src={src}
-                alt={alt || ''}
-                className="rounded-lg shadow-md my-6 w-full max-w-2xl"
-                loading="lazy"
-              />
-            ),
+            img: ({ src, alt, ...props }) => {
+              const base = _BASE
+              const resolvedSrc = src?.startsWith('/') ? `${base}${src}` : src
+              return (
+                <img
+                  src={resolvedSrc}
+                  alt={alt || ''}
+                  className="rounded-lg shadow-md my-6 w-full max-w-2xl"
+                  loading="lazy"
+                  {...props}
+                />
+              )
+            },
             li: ({ children, ...props }) => {
               const text = getText(children).trim()
               const taskIdx = taskMap[text]

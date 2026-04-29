@@ -1,15 +1,28 @@
 import io
+import mimetypes
 import os
 import re
 import zipfile
 
-from flask import Flask, jsonify, send_file, send_from_directory
+from flask import Flask, jsonify, request, send_file, send_from_directory
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.wrappers import Response as WSGIResponse
 
+# Ensure common MIME types are registered (some Posit Connect environments
+# have an incomplete system MIME database, which causes JS/CSS to be served
+# as text/plain and blocked by nosniff browsers).
+mimetypes.add_type("application/javascript", ".js")
+mimetypes.add_type("text/css", ".css")
+mimetypes.add_type("image/svg+xml", ".svg")
+mimetypes.add_type("image/png", ".png")
+mimetypes.add_type("image/webp", ".webp")
+mimetypes.add_type("font/woff2", ".woff2")
+mimetypes.add_type("font/woff", ".woff")
+mimetypes.add_type("font/ttf", ".ttf")
+
 BASE_PATH = os.environ.get("BASE_PATH", "").rstrip("/")
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=None)
 
 DIST_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "frontend", "dist")
 CONTENT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
@@ -19,13 +32,35 @@ PRACTICE_DIR = os.path.join(
 
 TASK_RE = re.compile(r"<!--\s*total-tasks:\s*(\d+)\s*-->")
 
-INJECT_META_RE = re.compile(r"(</head>)", re.IGNORECASE)
+META_PLACEHOLDER_RE = re.compile(
+    r'<meta\s+name="base-path"\s+content="[^"]*"\s*/?\s*>', re.IGNORECASE
+)
 
 
 def _inject_base_path(html):
-    """Insert a <meta> tag revealing the base path so the SPA can read it."""
-    meta = f'<meta name="base-path" content="{BASE_PATH or "/"}">'
-    return INJECT_META_RE.sub(meta + r"\1", html, count=1)
+    """Replace the base-path meta tag and rewrite asset paths for Posit Connect.
+
+    On Posit Connect, the app is mounted at /content/<guid>/.
+    ``request.script_root`` is set by WSGI middleware to that prefix.
+    We rewrite the meta tag so React Router and the API client know the
+    base path, and we rewrite relative asset references so the browser
+    resolves them correctly on deep SPA routes.
+    """
+    base_url = (request.script_root or BASE_PATH or "").rstrip("/") + "/"
+
+    # Replace the placeholder meta tag with the actual base path
+    meta_tag = f'<meta name="base-path" content="{base_url}" />'
+    html = META_PLACEHOLDER_RE.sub(meta_tag, html)
+
+    # Rewrite relative asset paths to absolute ones rooted at base_url.
+    # Without this, a browser at /content/{guid}/lesson/04 would resolve
+    # ./assets/app.js to /content/{guid}/lesson/assets/app.js (404).
+    html = html.replace('src="./assets/', f'src="{base_url}assets/')
+    html = html.replace('href="./assets/', f'href="{base_url}assets/')
+    # Rewrite favicon
+    html = html.replace('href="./favicon.svg"', f'href="{base_url}favicon.svg"')
+
+    return html
 
 LESSON_TITLES = {
     "01": "Welcome & Setup",
